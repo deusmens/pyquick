@@ -13,6 +13,13 @@
 # so [1, 2, 2, 3] returns [1, 2, 3]. You may create a new list or
 # modify the passed in list.
 def remove_adjacent(nums):
+  p = -1
+  nl = []
+  for n in nums:
+    if (not n == p):
+      nl.append(n)
+      p = n
+  return nl
   # +++your code here+++
   return
 
@@ -22,6 +29,27 @@ def remove_adjacent(nums):
 # Ideally, the solution should work in "linear" time, making a single
 # pass of both lists.
 def linear_merge(list1, list2):
+  list3 = []
+  lc = len(list1) + len(list2) 
+  l1 = list1.pop(-1)
+  l2 = list2.pop(-1)
+  for n in range(lc):
+    if (l1>l2):
+      list3.append(l1)
+      if (len(list1)==0):
+        list3.append(l2)
+        list3.reverse()
+        return list2+list3
+      else:
+        l1 = list1.pop(-1)
+    else:
+      list3.append(l2)
+      if (len(list2) ==0):
+        list3.append(l1)
+        list3.reverse()
+        return list1+list3
+      else:
+        l2 = list2.pop(-1)
   # +++your code here+++
   return
 

@@ -17,7 +17,15 @@ import commands
 
 # +++your code here+++
 # Write functions and modify main() to call them
-
+def listspecialdir(d):
+  filelist = os.listdir(d)
+  speciallist = []
+  for f in filelist:
+    match = re.search(r'__\w+__',f)
+    if match:
+      speciallist.append(os.path.abspath(f))
+      
+  return speciallist
 
 
 def main():
@@ -50,6 +58,25 @@ def main():
 
   # +++your code here+++
   # Call your functions
+  if todir:
+    for d in args:
+      flist = listspecialdir(d)
+      for f in flist:
+        shutil.copy(f,todir)
+  elif tozip:
+    cmd = 'zip '+tozip +' '
+    for d in args:
+      flist = listspecialdir(d)
+      for f in flist:
+        cmd = cmd + f + ' '
+
+    t = commands.getstatusoutput(cmd)
+
+  else:
+    for d in args:
+      flist = listspecialdir(d)
+      for f in flist:
+        print f
   
 if __name__ == "__main__":
   main()

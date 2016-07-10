@@ -44,6 +44,36 @@ import sys
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
+def builddict(filename):
+  d = {}
+  f = open(filename, 'rU')
+  for lines in f:
+    words = lines.split()
+    for w in words:
+      if w in d:
+        d[w]=d[w]+1
+      else:
+        d[w]=1
+  f.close()
+  return d
+
+def print_words(filename):
+  d = builddict(filename)
+  for p in d.items():
+    print p[0],p[1]
+
+def print_top(filename):
+  d = builddict(filename)
+  def cnt(t):
+    return t[1]
+  top = sorted(d.items(),key=cnt, reverse=True)
+  printCnt = len(top)
+  if printCnt >20:
+    printCnt = 20
+
+  for n in range(printCnt):
+    print top[n][0],top[n][1]
+
 
 ###
 

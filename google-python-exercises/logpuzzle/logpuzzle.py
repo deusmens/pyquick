@@ -25,6 +25,23 @@ def read_urls(filename):
   Screens out duplicate urls and returns the urls sorted into
   increasing order."""
   # +++your code here+++
+  filematch = re.search(r'_(\S+)',filename)
+  urlprefix = 'http://'+filematch.group(1)
+
+
+  urls = []
+  f = open(filename, 'rU')
+  text = f.read()
+  m = re.findall(r'GET (\S+)',text)
+  for url in m:
+    if re.search(r'puzzle',url):
+      fullurl = urlprefix+ url
+      if not fullurl in urls:
+        urls.append(fullurl)
+
+  f.close()
+  return sorted(urls)
+
   
 
 def download_images(img_urls, dest_dir):
@@ -36,6 +53,20 @@ def download_images(img_urls, dest_dir):
   Creates the directory if necessary.
   """
   # +++your code here+++
+  cnt = 0
+  for url in img_urls:
+    urllib.urlretrieve(url,dest_dir+'/img'+str(cnt))
+    cnt = cnt +1
+
+  indexHtml = open(dest_dir+'/index.html','w')
+  indexHtml.write('<verbatim>\n<html>\n<body>\n')
+  cnt = 0
+  for url in img_urls:
+    indexHtml.write('<img src="img'+str(cnt)+'">')
+    cnt = cnt +1
+  indexHtml.write('\n</body>\n</html>')
+
+  indexHtml.close
   
 
 def main():
